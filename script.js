@@ -102,6 +102,7 @@ scrollToTopBtn.addEventListener('click', () => {
 // === PROJECT FILTER LOGIC ===
 const filterBtns = document.querySelectorAll('.filter-btn');
 const projects = document.querySelectorAll('.project-item');
+const modalLink = document.getElementById('modal-link');
 
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -163,12 +164,14 @@ const modal = document.getElementById('project-modal');
 const modalBackdrop = document.getElementById('modal-backdrop');
 const modalContent = document.getElementById('modal-content');
 const closeModal = document.getElementById('close-modal');
-const triggers = document.querySelectorAll('.project-trigger');
 
 const mTitle = document.getElementById('modal-title');
 const mCategory = document.getElementById('modal-category');
 const mImage = document.getElementById('modal-image');
 const mDesc = document.getElementById('modal-desc');
+const mLink = document.getElementById('modal-link');
+
+const triggers = document.querySelectorAll('.project-trigger');
 
 function openModal(data) {
     mTitle.textContent = data.title;
@@ -176,20 +179,25 @@ function openModal(data) {
     mImage.src = data.image;
     mDesc.textContent = data.desc;
 
+    // 🔥 MAIN LINE
+    mLink.href = data.link;
+
     modal.classList.remove('hidden');
+
     setTimeout(() => {
         modalBackdrop.classList.remove('opacity-0');
         modalContent.classList.remove('scale-95', 'opacity-0');
         modalContent.classList.add('scale-100', 'opacity-100');
     }, 10);
-    document.body.style.overflow = 'hidden'; 
+
+    document.body.style.overflow = 'hidden';
 }
 
 function hideModal() {
     modalBackdrop.classList.add('opacity-0');
     modalContent.classList.remove('scale-100', 'opacity-100');
     modalContent.classList.add('scale-95', 'opacity-0');
-    
+
     setTimeout(() => {
         modal.classList.add('hidden');
         document.body.style.overflow = '';
@@ -202,7 +210,8 @@ triggers.forEach(trigger => {
             title: trigger.dataset.title,
             category: trigger.dataset.category,
             image: trigger.dataset.image,
-            desc: trigger.dataset.desc
+            desc: trigger.dataset.desc,
+            link: trigger.dataset.link // 🔥 IMPORTANT
         };
         openModal(data);
     });
@@ -210,9 +219,6 @@ triggers.forEach(trigger => {
 
 closeModal.addEventListener('click', hideModal);
 modalBackdrop.addEventListener('click', hideModal);
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') hideModal();
-});
 
 // === TOAST NOTIFICATION LOGIC ===
 const toastContainer = document.getElementById('toast-container');
