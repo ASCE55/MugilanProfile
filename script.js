@@ -313,3 +313,28 @@ spotlightCards.forEach(card => {
         
     });
 });
+
+function sendMail(e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const message = document.getElementById("message").value;
+
+    const subject = `New Message from ${name}`;
+    const body = `Name: ${name}%0AEmail: ${email}%0A%0A${message}`;
+
+    window.location.href = `mailto:mugilans229@gmail.com?subject=${subject}&body=${body}`;
+}
+
+
+
+window.addEventListener("load", () => {
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add("show");
+        }, index * 200); // stagger effect 🔥
+    });
+});
