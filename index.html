@@ -1,795 +1,690 @@
-<!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>𝖬𝗎𝗀𝗂𝗅𝖺𝗇 𝖯𝗈𝗋𝗍𝖿𝗈𝗅𝗂𝗈</title>
-    <meta name="description" content="Portofolio Max, seorang Creative Developer dan Desainer UI/UX berbasis di Indonesia yang mengkhususkan diri dalam pengalaman web interaktif.">
-    <meta name="keywords" content="Creative Developer, UI/UX Designer, Frontend Developer, React, Tailwind CSS, Indonesia, Portfolio">
-    <meta name="author" content="Max">
-    <meta name="theme-color" content="#2563eb">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Tailwind CSS (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Tailwind Configuration -->
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                fontFamily: {
-                    sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    display: ['"Space Grotesk"', 'sans-serif'],
-                },
-                extend: {
-                    colors: {
-                        primary: '#2563eb',
-                        secondary: '#4f46e5',
-                        dark: '#050505',
-                        surface: '#0a0a0a',
-                        whatsapp: '#25D366',
-                    },
-                    animation: {
-                        'fade-up': 'fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
-                        'marquee': 'marquee 30s linear infinite',
-                        'spin-slow': 'spin 15s linear infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'text-reveal': 'textReveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
-                    },
-                    keyframes: {
-                        fadeUp: {
-                            '0%': { opacity: '0', transform: 'translateY(40px)', filter: 'blur(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)', filter: 'blur(0)' },
-                        },
-                        textReveal: {
-                            '0%': { transform: 'translateY(100%)' },
-                            '100%': { transform: 'translateY(0)' },
-                        },
-                        marquee: {
-                            '0%': { transform: 'translateX(0%)' },
-                            '100%': { transform: 'translateX(-100%)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- External Styles -->
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body class="bg-slate-50 text-slate-800 dark:bg-dark dark:text-slate-200 transition-colors duration-500 selection:bg-primary selection:text-white overflow-x-hidden">
-
-    <!-- [NEW] Noise Texture Overlay -->
-    <div class="fixed inset-0 z-[1] bg-noise pointer-events-none opacity-40 mix-blend-overlay"></div>
-
-    <!-- Preloader -->
-    <div id="preloader" class="fixed inset-0 z-[9999] bg-slate-50 dark:bg-dark flex items-center justify-center">
-        <div class="flex flex-col items-center gap-4">
-            <div class="relative w-16 h-16">
-                <div class="absolute inset-0 border-4 border-slate-200 dark:border-white/10 rounded-full"></div>
-                <div class="absolute inset-0 border-4 border-primary rounded-full border-t-transparent animate-spin"></div>
-            </div>
-            <span class="text-sm font-bold tracking-widest uppercase animate-pulse">๓є๏ฬ..</span>...</span>
-        </div>
-    </div>
-
-    <!-- Toast Notification Container -->
-    <div id="toast-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 pointer-events-none"></div>
-
-    <!-- Background Elements -->
-    <div class="fixed inset-0 z-0 bg-grid-pattern pointer-events-none"></div>
-    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none opacity-50 dark:opacity-20 z-0"></div>
-
-    <!-- Navigation -->
-    <header class="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-6">
-        <nav class="bg-white/70 dark:bg-surface/70 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-full px-6 py-3 flex items-center gap-8 shadow-sm transition-all duration-300 w-full max-w-4xl justify-between md:justify-start reveal-on-scroll">
-            
-            <a href="#" class="text-xl font-bold font-display tracking-tight text-slate-900 dark:text-white hoverable magnetic-btn focus:outline-none relative z-20">
-                MΛX<span class="text-primary">.</span>
-            </a>
-
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center gap-6 text-sm font-medium ml-auto relative z-20" id="desktop-menu">
-                <a href="#home" class="nav-link text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-colors hoverable magnetic-btn">Home</a>
-                <a href="#about" class="nav-link text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-colors hoverable magnetic-btn">About</a>
-                <a href="#skills" class="nav-link text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-colors hoverable magnetic-btn">Skills</a>
-                <a href="#writing" class="nav-link text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-colors hoverable magnetic-btn">Writing</a>
-                <a href="#contact" class="px-5 py-2 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full font-bold text-xs hover:scale-105 transition-transform hoverable magnetic-btn">Hire Me</a>
-            </div>
-
-            <div class="flex items-center gap-3 md:ml-4 border-l border-slate-200 dark:border-white/10 pl-4 md:pl-6 relative z-20">
-                <button id="theme-toggle" aria-label="Ganti Mode Gelap" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors hoverable magnetic-btn focus:outline-none">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <button id="mobile-menu-btn" aria-label="Buka Menu" class="md:hidden text-slate-900 dark:text-white p-1 hoverable magnetic-btn focus:outline-none">
-                    <i class="fas fa-bars text-lg"></i>
-                </button>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 z-40 bg-white/95 dark:bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-300">
-        <a href="#home" class="text-3xl font-display font-bold mobile-link hover:text-primary hoverable">Home</a>
-        <a href="#about" class="text-3xl font-display font-bold mobile-link hover:text-primary hoverable">About</a>
-        <a href="#skills" class="text-3xl font-display font-bold mobile-link hover:text-primary hoverable">Skills</a>
-        <a href="#writing" class="text-3xl font-display font-bold mobile-link hover:text-primary hoverable">Writing</a>
-        <a href="#contact" class="text-3xl font-display font-bold mobile-link hover:text-primary hoverable">Contact</a>
-        <button id="close-menu" aria-label="Tutup Menu" class="absolute top-8 right-8 text-slate-500 hover:text-black dark:hover:text-white hoverable">
-            <i class="fas fa-times text-2xl"></i>
-        </button>
-    </div>
-
-    <!-- Hero Section -->
-    <section id="home" class="section-spy relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        <div class="container mx-auto px-6 relative z-10 max-w-6xl">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="text-center lg:text-left order-2 lg:order-1">
-                    <div class="hero-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/60 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-sm mb-6">
-                        <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                        </span>
-                        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Available</span>
-                    </div>
-
-                    <!-- Masked Text Reveal Animation -->
-<h1 class="font-display text-5xl md:text-7xl lg:text-[6rem] font-bold leading-[1.1] md:leading-[0.9] tracking-tight mb-6 text-slate-900 dark:text-white">
-    <!-- Baris 1: Muncul biasa dengan masking -->
-    <div class="hero-heading-line overflow-hidden">
-        <span class="block">𝙶𝚂𝚂</span>
-    </div>
-    
-    <!-- Baris 2: Efek Gradasi Bergerak + Masking -->
-    <div class="hero-heading-line overflow-hidden pb-2">
-        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-secondary animate-gradient-x bg-[length:200%_auto]">ʍugilan</span>
-    </div>
-    
-    <!-- Baris 3: Muncul biasa dengan masking -->
-    <div class="hero-heading-line overflow-hidden">
-        <span class="block">ᴅᴇᴠᴇʟᴏᴘᴇʀ</span>
-    </div>
-</h1>
-
-                    <p class="hero-description text-lg text-slate-600 dark:text-slate-400 max-w-md mx-auto lg:mx-0 mb-10 leading-relaxed">
-                       Crafting high-performance, <span class="text-slate-900 dark:text-white font-semibold">visually</span>  captivating interactive websites from complex ideas.
-                    </p>
-
-                    <div class="hero-buttons flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <!--            <a href="https://digilink-files.s3.amazonaws.com/public/max-resume_1774459340.pdf?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA6JQ44SLNHV6LG4WT%2F20260325%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260325T172554Z&X-Amz-SignedHeaders=host&X-Amz-Expires=1200&X-Amz-Signature=bfb56e178de32621a756721d17eb2ab569a73561fcd8b381bba91541113d2c24" download class="group relative px-8 py-3.5 bg-primary text-white rounded-full font-bold overflow-hidden hover:scale-[1.02] transition-transform shadow-xl hoverable magnetic-btn focus:outline-none">
-      <span class="relative z-10">Download Resume</span>
-    </a> -->
-                        <a href="#contact" class="flex items-center justify-center w-12 h-12 rounded-full border border-slate-200 dark:border-white/20 hover:border-primary hover:text-primary transition-colors hoverable magnetic-btn focus:outline-none" aria-label="Gulir ke Kontak">
-                            <i class="fas fa-arrow-down animate-bounce"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="hero-image-container relative h-[400px] md:h-[600px] flex items-center justify-center order-1 lg:order-2 perspective-1000">
-                    <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-full blur-3xl animate-pulse-slow"></div>
-                    <div class="hero-circle-outer absolute w-64 h-64 md:w-96 md:h-96 border border-slate-200 dark:border-white/10 rounded-full animate-spin-slow"></div>
-                    <div class="hero-circle-middle absolute w-48 h-48 md:w-72 md:h-72 border border-dashed border-slate-300 dark:border-white/20 rounded-full animate-spin-slow [animation-direction:reverse]"></div>
-                    
-                    <div class="hero-profile-img hero-image-glow relative w-56 h-56 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white dark:border-white/10 shadow-2xl animate-[float_6s_ease-in-out_infinite] z-10 group cursor-pointer hoverable magnetic-btn">
-                        <img hreflective="true" src="https://image2url.com/r2/default/images/1774456803071-e63eb406-488a-434b-8b4b-34df4cd81b13.png"
-                             alt="max" 
-                             width="800" height="800"
-                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    
-    <section id="about" class="section-spy py-20 bg-white/50 dark:bg-white/5 border-y border-slate-200 dark:border-white/5 backdrop-blur-sm relative z-10">
-        <div class="container mx-auto px-6 max-w-6xl">
-            <h2 class="font-display text-4xl font-bold text-slate-900 dark:text-white mb-12 reveal-on-scroll">My Inventory <span class="text-primary">.</span></h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6 h-auto md:h-[500px]">
-                
-                <!-- Card 1 -->
-                <div class="bento-card spotlight-card col-span-1 md:col-span-2 bg-slate-100 dark:bg-surface border border-slate-200 dark:border-white/10 rounded-3xl p-8 flex flex-col justify-between overflow-hidden relative group hoverable reveal-on-scroll">
-                    <div class="spotlight-overlay"></div>
-                    <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
-                    <div class="z-10">
-                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Main Technologies</h3>
-                        <p class="text-slate-500 text-sm">Tools I use to create digital products.</p>
-                    </div>
-                    <div class="absolute bottom-8 left-0 right-0 w-full overflow-hidden">
-                        <div class="flex gap-8 animate-marquee whitespace-nowrap opacity-50 group-hover:opacity-100 transition-opacity">
-                            <span class="text-5xl font-display font-bold text-slate-300 dark:text-slate-700">FIREBASE HTML CSS C JAVASCRIPT PYTHON</span>
-                            <span class="text-5xl font-display font-bold text-slate-300 dark:text-slate-700">FIREBASE HTML CSS C JAVASCRIPT PYTHON</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="bento-card spotlight-card col-span-1 bg-slate-900 text-white rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden hoverable reveal-on-scroll delay-100">
-                    <div class="spotlight-overlay"></div>
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary blur-3xl opacity-30 rounded-full"></div>
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mb-4 text-2xl animate-spin-slow">
-                            🌍
-                        </div>
-                        <h3 class="text-xl font-bold mb-1">Based in</h3>
-                        <p class="text-slate-400">India</p>
-                    </div>
-                    <div class="relative z-10">
-                        <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Local Time</p>
-                        <p id="local-time" class="text-3xl font-display font-bold font-mono">00:00:00</p>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="bento-card spotlight-card col-span-1 bg-white dark:bg-surface border border-slate-200 dark:border-white/10 rounded-3xl p-8 flex flex-col justify-center gap-6 hoverable reveal-on-scroll delay-200">
-                    <div class="spotlight-overlay"></div>
-                    <div class="relative z-10">
-                        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-xs font-bold uppercase tracking-wide">
-                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> personal links
-                        </span>
-                    </div>
-                    <div class="flex gap-4 text-2xl text-slate-600 dark:text-slate-400 relative z-10">
-                         <a href="https://www.instagram.com/ogd_mugi.l/" class="hover:text-primary transition-colors hover:scale-110 transform"><i class="fab fa-instagram"></i></a>
-                        <!--<a href="https://www.linkedin.com/in/mugilan-s-7a8b0b1b4/" class="hover:text-primary transition-colors hover:scale-110 transform"><i class="fab fa-linkedin"></i></a>
-                    -->
-                         <a href="https://github.com/ASCE55" class="hover:text-primary transition-colors hover:scale-110 transform"><i class="fab fa-github"></i></a>
-                         <a href="https://asce55.github.io/ACRYNOX/" class="hover:text-primary transition-colors hover:scale-110 transform"><i class="fas fa-globe"></i></a>
-                         <a href="https://discord.com/users/1117761333270687744" class="hover:text-primary transition-colors hover:scale-110 transform"><i class="fab fa-discord"></i></a>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="bento-card spotlight-card col-span-1 md:col-span-2 bg-gradient-to-br from-primary to-secondary text-white rounded-3xl p-8 flex flex-col justify-center relative overflow-hidden hoverable reveal-on-scroll delay-300">
-                    <div class="spotlight"></div>
-                    <i class="fas fa-quote-right absolute top-8 right-8 text-6xl text-white/10"></i>
-                    <h3 class="text-2xl md:text-3xl font-display font-bold leading-tight relative z-10 max-w-lg">
-                        "தறயில் அமரும் பறவை பறக்கும் உயிரம் யார் அறிவார் ? "
-                    </h3>
-                    <p class="mt-4 text-white/80 text-sm font-mono relative z-10"> — Max</p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-<div class="hero-buttons flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-
-    <a href="https://drive.google.com/file/d/1bsoxurO6UHSQT6uLQzbDQRJu-5A00HhQ/view?usp=drive_link" download class="group relative px-8 py-3.5 bg-primary text-white rounded-full font-bold overflow-hidden hover:scale-[1.02] transition-transform shadow-xl hoverable magnetic-btn focus:outline-none">
-      <span class="relative z-10">Download Resume</span>
-    </a>
-
-</div>
-    <!-- Services Section -->
-<section id="skills" class="section-spy py-24 relative z-10">
-    <div class="container mx-auto px-6 max-w-6xl">
-        <div class="text-center mb-16 reveal-on-scroll">
-            <h2 class="font-display text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
-                Skills<span class="text-primary">.</span>
-            </h2>
-            <p class="text-slate-500 max-w-lg mx-auto">
-                Delivering creative and technical solutions across design, web, and gaming.
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            <!-- Web Design & Development -->
-            <div class="p-8 rounded-2xl bg-white dark:bg-surface border border-slate-200 dark:border-white/10 hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 group hoverable reveal-on-scroll spotlight-card">
-                <div class="spotlight-overlay"></div>
-                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-6 text-2xl group-hover:bg-primary group-hover:text-white transition-colors relative z-10">
-                    <i class="fas fa-code"></i>
-                </div>
-                <h3 class="text-xl font-bold font-display text-slate-900 dark:text-white mb-3 relative z-10">
-                    Web Design & Development
-                </h3>
-                <p class="text-slate-500 text-sm leading-relaxed relative z-10">
-                    Creating modern, responsive websites with clean UI, smooth animations, and high performance using latest web technologies.
-                </p>
-            </div>
-
-            <!-- Graphic Design -->
-            <div class="p-8 rounded-2xl bg-white dark:bg-surface border border-slate-200 dark:border-white/10 hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 group hoverable reveal-on-scroll delay-100 spotlight-card">
-                <div class="spotlight-overlay"></div>
-                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-6 text-2xl group-hover:bg-primary group-hover:text-white transition-colors relative z-10">
-                    <i class="fas fa-palette"></i>
-                </div>
-                <h3 class="text-xl font-bold font-display text-slate-900 dark:text-white mb-3 relative z-10">
-                    Graphic Design
-                </h3>
-                <p class="text-slate-500 text-sm leading-relaxed relative z-10">
-                    Designing logos, banners, YouTube thumbnails, and branding materials with strong visual identity and impact.
-                </p>
-            </div>
-
-            <!-- Game / Bot Development -->
-            <div class="p-8 rounded-2xl bg-white dark:bg-surface border border-slate-200 dark:border-white/10 hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 group hoverable reveal-on-scroll delay-200 spotlight-card">
-                <div class="spotlight-overlay"></div>
-                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-6 text-2xl group-hover:bg-primary group-hover:text-white transition-colors relative z-10">
-                    <i class="fas fa-gamepad"></i>
-                </div>
-                <h3 class="text-xl font-bold font-display text-slate-900 dark:text-white mb-3 relative z-10">
-                    Game & Bot Development
-                </h3>
-                <p class="text-slate-500 text-sm leading-relaxed relative z-10">
-                    Building Minecraft servers, Discord bots, and basic FiveM scripts to enhance gaming experiences and automate communities.
-                </p>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-    <!-- Experience Section -->
-    
-<section id="experience" class="section-spy py-24 bg-slate-50 dark:bg-[#080808]">
-    <div class="container mx-auto px-6 max-w-5xl">
-        <h2 class="font-display text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-16 text-center reveal-on-scroll">
-            Experience<span class="text-primary">.</span>
-        </h2>
-
-        <div class="relative border-l border-slate-200 dark:border-white/10 ml-4 md:ml-10 space-y-12">
-            
-            <!-- Web Design -->
-            <div class="relative pl-8 md:pl-12 group reveal-on-scroll">
-                <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-primary transition-colors ring-4 ring-transparent group-hover:ring-primary/20"></span>
-                <div class="flex flex-col sm:flex-row gap-2 sm:items-center mb-2">
-                    <h3 class="text-xl font-bold font-display text-slate-900 dark:text-white group-hover:text-primary transition-colors">
-                        Web Designer & Developer
-                    </h3>
-                    <span class="text-xs font-bold px-2 py-1 rounded bg-slate-200 dark:bg-white/10 text-slate-600 dark:text-slate-300 w-fit">
-                        2024 - Present
-                    </span>
-                </div>
-                <p class="text-primary font-medium mb-2">Freelance</p>
-                <p class="text-slate-500 text-sm leading-relaxed max-w-2xl">
-                    Designing and developing modern, responsive websites with clean UI and smooth user experience. Skilled in creating visually appealing layouts and high-performance web applications.
-                </p>
-            </div>
-
-            <!-- Graphic Design -->
-            <div class="relative pl-8 md:pl-12 group reveal-on-scroll delay-100">
-                <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-primary transition-colors ring-4 ring-transparent group-hover:ring-primary/20"></span>
-                <div class="flex flex-col sm:flex-row gap-2 sm:items-center mb-2">
-                    <h3 class="text-xl font-bold font-display text-slate-900 dark:text-white group-hover:text-primary transition-colors">
-                        Graphic Designer
-                    </h3>
-                    <span class="text-xs font-bold px-2 py-1 rounded bg-slate-200 dark:bg-white/10 text-slate-600 dark:text-slate-300 w-fit">
-                        2025 - Present
-                    </span>
-                </div>
-                <p class="text-primary font-medium mb-2">Freelance</p>
-                <p class="text-slate-500 text-sm leading-relaxed max-w-2xl">
-                    Creating logos, banners, YouTube thumbnails, and branding materials with a strong focus on visual impact and identity design.
-                </p>
-            </div>
-
-            <!-- Dev / Game / Bots -->
-            <div class="relative pl-8 md:pl-12 group reveal-on-scroll delay-200">
-                <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-primary transition-colors ring-4 ring-transparent group-hover:ring-primary/20"></span>
-                <div class="flex flex-col sm:flex-row gap-2 sm:items-center mb-2">
-                    <h3 class="text-xl font-bold font-display text-slate-900 dark:text-white group-hover:text-primary transition-colors">
-                        Game & Bot Developer
-                    </h3>
-                    <span class="text-xs font-bold px-2 py-1 rounded bg-slate-200 dark:bg-white/10 text-slate-600 dark:text-slate-300 w-fit">
-                        2025 - Present
-                    </span>
-                </div>
-                <p class="text-primary font-medium mb-2"> Discord • Minecraft• FiveM</p>
-                <p class="text-slate-500 text-sm leading-relaxed max-w-2xl">
-                    Developing Minecraft servers, Discord bots, and basic FiveM scripts. Focused on automation, server management, and enhancing user experience in gaming communities.
-                </p>
-            </div>
-            <!-- Editing -->
-             <div class="relative pl-8 md:pl-12 group reveal-on-scroll delay-300">
-                <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-primary transition-colors ring-4 ring-transparent group-hover:ring-primary/20"></span>
-                <div class="flex flex-col sm:flex-row gap-2 sm:items-center mb-2">
-                    <h3 class="text-xl font-bold font-display text-slate-900 dark:text-white group-hover:text-primary transition-colors">
-                        Video Editor
-                    </h3>
-                    <span class="text-xs font-bold px-2 py-1 rounded bg-slate-200 dark:bg-white/10 text-slate-600 dark:text-slate-300 w-fit">
-                        2026 - Present
-                    </span>
-                </div>
-                <p class="text-primary font-medium mb-2">Freelance</p>
-                <p class="text-slate-500 text-sm leading-relaxed max-w-2xl">
-                    Editing videos for YouTube and social media platforms, creating engaging content with a focus on storytelling and visual appeal.
-                </p>
-            </div>
-
-        </div>
-    </div>
-</section>
-    <!-- Selected Work -->
-  <section id="work" class="section-spy py-24 relative z-10">
-        <div class="container mx-auto px-6 max-w-6xl">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 reveal-on-scroll">
-                <h2 class="font-display text-4xl md:text-6xl font-bold text-slate-900 dark:text-white">
-                    Projects<br><span class="text-primary">.</span>
-                </h2>
-                <p class="text-slate-500 text-sm md:text-base max-w-xs text-left md:text-right">
-                   A combination of business strategy, aesthetic design, and clean code.
-                </p>
-            </div>
-
-            <!-- Project Filters 
-            <div class="flex flex-wrap gap-4 mb-16 reveal-on-scroll delay-100" id="portfolio-filters">
-                <button class="filter-btn active px-5 py-2 rounded-full border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary transition-all hoverable magnetic-btn" data-filter="all">All</button>
-                <button class="filter-btn px-5 py-2 rounded-full border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary transition-all hoverable magnetic-btn" data-filter="design">Desain UI/UX</button>
-                <button class="filter-btn px-5 py-2 rounded-full border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary transition-all hoverable magnetic-btn" data-filter="dev">Development</button>
-                <button class="filter-btn px-5 py-2 rounded-full border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary transition-all hoverable magnetic-btn" data-filter="mobile">Mobile</button>
-            </div>  -->
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 md:gap-y-32" id="projects-grid">
-                
-                <!-- Project 1 -->
-                <article onclick="window.open('https://asce55.github.io/ACRYNOX/', '_blank')" 
-    class="group cursor-pointer rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 transition hover:scale-[1.02]">
-
-    <!-- TITLE -->
-    <div class="flex justify-between items-center mb-4">
-        <h3 class="text-2xl font-bold text-white">ACRYNOX – Startup</h3>
-        <span class="text-xl opacity-50 group-hover:translate-x-1 transition">↗</span>
-    </div>
-
-    <!-- IMAGE -->
-    <div class="overflow-hidden rounded-xl mb-4">
-        <img src="https://image2url.com/r2/default/images/1774761140521-79f99f6d-bb5a-4c2f-8bd4-0eaba1947c4b.png"
-             class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
-    </div>
-
-    <!-- CATEGORY -->
-    <p class="text-sm text-gray-400 mb-2">
-        Desain UI/UX • Web Development
-    </p>
-
-    <!-- DESCRIPTION -->
-    <p class="text-gray-300 mb-4">
-        A startup website for ACRYNOX, featuring a sleek design and smooth animations.
-    </p>
-
-    <!-- BUTTON -->
-    <button class="px-5 py-2 rounded-full bg-white text-black font-semibold text-sm">
-        Visit Website ↗
-    </button>
-
-</article>
-                <!-- Project 2 -->
-               <article onclick="window.open('https://asce55.github.io/DEV/', '_blank')" 
-    class="group cursor-pointer rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 transition hover:scale-[1.02]">
-
-    <!-- TITLE -->
-    <div class="flex justify-between items-center mb-4">
-        <h3 class="text-2xl font-bold text-white">Blazely – Web Work</h3>
-        <span class="text-xl opacity-50 group-hover:translate-x-1 transition">↗</span>
-    </div>
-
-    <!-- IMAGE -->
-    <div class="overflow-hidden rounded-xl mb-4">
-        <img src="https://image2url.com/r2/default/images/1774800735834-c88532a9-a692-4706-9645-95fb62117f4d.png"
-             class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
-    </div>
-
-    <!-- CATEGORY -->
-    <p class="text-sm text-gray-400 mb-2">
-        Web Development • UI Design
-    </p>
-
-    <!-- DESCRIPTION -->
-    <p class="text-gray-300 mb-4">
-        A modern web project created for Blazely, focused on clean UI, performance, and smooth user experience.
-    </p>
-
-    <!-- BUTTON -->
-    <button class="px-5 py-2 rounded-full bg-white text-black font-semibold text-sm">
-        Visit Website ↗
-    </button>
-
-</article>
-                <!-- Project 3 -->
-                
-<article onclick="window.open('https://asce55.github.io/mugilan-portfolio/', '_blank')" 
-    class="group cursor-pointer rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 transition hover:scale-[1.02]">
-
-    <!-- TITLE -->
-    <div class="flex justify-between items-center mb-4">
-        <h3 class="text-2xl font-bold text-white">Personal Portfolio</h3>
-        <span class="text-xl opacity-50 group-hover:translate-x-1 transition">↗</span>
-    </div>
-
-    <!-- IMAGE -->
-    <div class="overflow-hidden rounded-xl mb-4">
-        <img src="https://image2url.com/r2/default/images/1774800601284-49eafde7-8f28-4ddd-8222-9aeee7c6170c.png"
-             class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
-    </div>
-
-    <!-- CATEGORY -->
-    <p class="text-sm text-gray-400 mb-2">
-        Portfolio • Web Design
-    </p>
-
-    <!-- DESCRIPTION -->
-    <p class="text-gray-300 mb-4">
-        My personal portfolio website showcasing projects, skills, and creative development work with modern UI and smooth interactions.
-    </p>
-
-    <!-- BUTTON -->
-    <button class="px-5 py-2 rounded-full bg-white text-black font-semibold text-sm">
-        Visit Website ↗
-    </button>
-
-</article>
-            <article onclick="window.open('https://asce55.github.io/3MD-dev-loadscr/', '_blank')" 
-    class="group cursor-pointer rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 transition hover:scale-[1.02]">
-
-    <!-- TITLE -->
-    <div class="flex justify-between items-center mb-4">
-        <h3 class="text-2xl font-bold text-white">3MD – Dev Loadscr</h3>
-        <span class="text-xl opacity-50 group-hover:translate-x-1 transition">↗</span>
-    </div>
-
-    <!-- IMAGE -->
-    <div class="overflow-hidden rounded-xl mb-4">
-        <img src="https://images.unsplash.com/photo-1581090700227-1e37b190418e"
-             class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
-    </div>
-
-    <!-- CATEGORY -->
-    <p class="text-sm text-gray-400 mb-2">
-        Web Development • UI Design
-    </p>
-
-    <!-- DESCRIPTION -->
-    <p class="text-gray-300 mb-4">
-        A development-based web project focused on UI structure, loading screens, and smooth performance experience.
-    </p>
-
-    <!-- BUTTON -->
-    <button class="px-5 py-2 rounded-full bg-white text-black font-semibold text-sm">
-        Visit Website ↗
-    </button>
-
-</article>   
-            
-            <div class="text-center mt-24">
-                <a href="#" class="inline-block px-8 py-3 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all text-sm font-semibold tracking-wide hoverable magnetic-btn focus:outline-none">
-                    VIEW ALL ARCHIVES
-                </a>
-            </div>
-        </div>
-    </section>
-
-  
-
-<section class="py-20">
-
-    <h2 class="text-4xl font-bold text-center mb-10 text-white">
-        Youtube Thumbnails
-    </h2>
-
-    <div class="columns-2 md:columns-3 gap-4 px-6 space-y-4">
-
-        <img src="https://image2url.com/r2/default/images/1774801596931-100505d5-6d70-4575-af2e-670a297b8981.webp" class="rounded-xl w-full">
-        <img src="https://image2url.com/r2/default/images/1774801777824-b2f005b6-f96b-4170-8071-33825bd738ab.png" class="rounded-xl w-full">
-        <img src="https://image2url.com/r2/default/images/1774801860823-f5b4909d-2a78-4513-929b-c7b9ea8da2b9.png" class="rounded-xl w-full">
-        <img src="https://image2url.com/r2/default/images/1774802095061-921b9126-c515-4070-b79c-a02b7a667b63.jpg" class="rounded-xl w-full">
-        <img src="https://image2url.com/r2/default/images/1774802250974-a2441e19-eebf-4aa9-ae22-e4eeb15bc6f9.png" class="rounded-xl w-full">
-
-    </div>
-
-</section>
-  <section id="writing" class="section-spy py-24 bg-[#05070d] text-white">
-    <div class="container mx-auto px-6 max-w-6xl">
-
-        <!-- Heading -->
-        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-            <h2 class="font-display text-4xl md:text-5xl font-bold">
-                My Insights<br><span class="text-blue-500">Latest Articles.</span>
-            </h2>
-
-            <a href="#" class="text-gray-400 text-sm font-bold hover:text-blue-500 transition">
-                Back to Top →
-            </a>
-        </div>
-
-        <!-- Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-            <!-- Card 1 -->
-            <a href="#" class="group block">
-                <div class="h-64 rounded-2xl overflow-hidden mb-5 relative">
-                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475"
-                        class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-
-                    <div class="absolute inset-0 bg-blue-900/30 group-hover:bg-transparent transition"></div>
-                </div>
-
-                <p class="text-blue-400 text-xs font-bold uppercase mb-2">Tech</p>
-
-                <h3 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition">
-                    AI is Changing Everything in 2026
-                </h3>
-
-                <p class="text-gray-400 text-sm">
-                    How artificial intelligence is reshaping development and digital creation.
-                </p>
-            </a>
-
-            <!-- Card 2 -->
-            <a href="#" class="group block">
-                <div class="h-64 rounded-2xl overflow-hidden mb-5 relative">
-                    <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7"
-                        class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-
-                    <div class="absolute inset-0 bg-blue-900/30 group-hover:bg-transparent transition"></div>
-                </div>
-
-                <p class="text-blue-400 text-xs font-bold uppercase mb-2">Design</p>
-
-                <h3 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition">
-                    UI/UX That Feels Like Magic
-                </h3>
-
-                <p class="text-gray-400 text-sm">
-                    Small interactions that create big impact in user experience.
-                </p>
-            </a>
-
-            <!-- Card 3 -->
-            <a href="#" class="group block">
-                <div class="h-64 rounded-2xl overflow-hidden mb-5 relative">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c"
-                        class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-
-                    <div class="absolute inset-0 bg-blue-900/30 group-hover:bg-transparent transition"></div>
-                </div>
-
-                <p class="text-blue-400 text-xs font-bold uppercase mb-2">Growth</p>
-
-                <h3 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition">
-                    My Journey Into Tech & AI
-                </h3>
-
-                <p class="text-gray-400 text-sm">
-                    From beginner to building real projects — lessons learned.
-                </p>
-            </a>
-
-        </div>
-    </div>
-</section>
-   
-    <section id="contact" class="section-spy py-24 md:py-32 relative overflow-hidden bg-slate-100 dark:bg-[#080808]">
-        <div class="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none"></div>
-        
-        <div class="container mx-auto px-6 relative z-10 max-w-5xl">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="text-center lg:text-left">
-                    <h2 class="font-display text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tighter leading-tight reveal-on-scroll">
-                        Let’s build something amazing.<br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Legendary.</span>
-                    </h2>
-                    <p class="text-slate-500 mb-8 text-lg reveal-on-scroll delay-100">
-                        Whether you have a project in mind or just want to say hello, my inbox is always open.
-                    </p>
-                    <div class="space-y-4 text-left hidden lg:block reveal-on-scroll delay-200">
-                        <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
-                            <i class="fas fa-envelope text-primary w-6"></i>
-                            <span>mugilans229@gmail.com</span>
-                        </div>
-                        <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
-                            <i class="fas fa-map-marker-alt text-primary w-6"></i>
-                            <span>Erode , India</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="bg-white dark:bg-surface p-8 rounded-3xl shadow-xl border border-slate-200 dark:border-white/10 reveal-on-scroll delay-300">
-                    <form class="space-y-6" id="contact-form">
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Name</label>
-                            <input type="text" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all dark:text-white hoverable magnetic-btn" placeholder="Your Name" required>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email</label>
-                            <input type="email" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all dark:text-white hoverable magnetic-btn" placeholder="email@contoh.com" required>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Message</label>
-                            <textarea rows="4" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all dark:text-white hoverable magnetic-btn" placeholder="Tell me about your project..." required></textarea>
-                        </div>
-                        <button type="submit" class="w-full py-4 bg-slate-900 dark:bg-white text-white dark:text-black rounded-xl font-bold text-lg hover:scale-[1.02] transition-transform shadow-lg hoverable magnetic-btn focus:outline-none">
-                            Send Message
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <footer class="mt-24 pt-8 border-t border-slate-200 dark:border-white/10 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500 reveal-on-scroll">
-                <div class="flex gap-6 mb-4 md:mb-0">
-                    <a href="s" class="hover:text-primary transition-colors hoverable focus:outline-none magnetic-btn">LinkedIn</a>
-                    <a href="https://www.instagram.com/ogd_mugi.l/" class="hover:text-primary transition-colors hoverable focus:outline-none magnetic-btn">Instagram</a>
-                    <a href="https://github.com/ASCE55" class="hover:text-primary transition-colors hoverable focus:outline-none magnetic-btn">GitHub</a>
-                </div>
-                <div>© <span id="year">2026</span> Mugilan. All rights reserved.</div>
-            </footer>
-        </div>
-    </section>
-
-    <div id="project-modal" class="fixed inset-0 z-[100] hidden">
-
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop"></div>
-        
-        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
-            <div class="bg-white dark:bg-[#111] w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl transform scale-95 opacity-0 transition-all duration-300 pointer-events-auto border border-slate-200 dark:border-white/10" id="modal-content">
-                <div class="relative">
-
-                    <button id="close-modal" aria-label="Tutup Modal" class="absolute top-4 right-4 w-10 h-10 bg-white/50 dark:bg-black/50 backdrop-blur rounded-full flex items-center justify-center text-slate-900 dark:text-white hover:bg-red-500 hover:text-white transition-colors z-10 hoverable focus:outline-none">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    
-                    <div class="h-64 md:h-96 w-full overflow-hidden">
-                        <img id="modal-image" src="" class="w-full h-full object-cover" alt="Detail Proyek">
-                    </div>
-
-                    <div class="p-8 md:p-12">
-                        <div class="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
-                            <div>
-                                <span id="modal-category" class="text-primary font-bold text-sm tracking-widest uppercase mb-2 block">Category</span>
-                                <h2 id="modal-title" class="text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white">Project Title</h2>
-                            </div>
-                            <a href="#" class="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full font-bold text-sm hover:scale-105 transition-transform whitespace-nowrap hoverable focus:outline-none">
-                                Visit Website <i class="fas fa-external-link-alt ml-2"></i>
-                            </a>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                            <div class="md:col-span-2">
-                                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">About the Project</h3>
-                                <p id="modal-desc" class="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
-                                    Description is here.
-                                </p>
-                            </div>
-                            <div class="space-y-6">
-                                <div>
-                                    <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">Technology</h4>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="px-3 py-1 bg-slate-100 dark:bg-white/10 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">React</span>
-                                        <span class="px-3 py-1 bg-slate-100 dark:bg-white/10 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">Tailwind</span>
-                                        <span class="px-3 py-1 bg-slate-100 dark:bg-white/10 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">GSAP</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">Year</h4>
-                                    <p class="text-slate-600 dark:text-slate-400">2026</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-   <!-- <a href="" target="_blank" aria-label="Chat WhatsApp" class="fixed bottom-8 right-8 z-[60] w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 hoverable magnetic-btn group">
-        <span class="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-30 animate-ping"></span>
-        <i class="fab fa-whatsapp text-3xl leading-none z-10 group-hover:rotate-12 transition-transform"></i>
-    </a> --> 
-
-    <button id="scrollToTopBtn" aria-label="Mugilan" class="fixed bottom-28 right-8 z-50 w-12 h-12 bg-white dark:bg-surface border border-slate-200 dark:border-white/20 rounded-full flex items-center justify-center text-slate-600 dark:text-white shadow-lg translate-y-20 opacity-0 transition-all duration-300 hover:border-primary hover:text-primary hover:-translate-y-1 hoverable focus:outline-none">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-    
-
-    <script src="script.js"></script>
-</body>
-</html>
+.bg-grid-pattern {
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+}
+.dark .bg-grid-pattern {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+.bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+.preserve-3d { transform-style: preserve-3d; }
+.perspective-1000 { perspective: 1000px; }
+.backface-hidden { backface-visibility: hidden; }
+.parallax-img { will-change: transform; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+#preloader {
+    transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.6s;
+}
+#preloader.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Toast Animation */
+.toast-enter {
+    transform: translateY(100%) scale(0.9);
+    opacity: 0;
+}
+.toast-enter-active {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.toast-exit {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+.toast-exit-active {
+    transform: translateY(20px) scale(0.9);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+*:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 4px;
+}
+
+/* Filter Button Active State */
+.filter-btn.active {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+.dark .filter-btn.active {
+    color: white;
+}
+
+/* Spotlight & Hover Effects */
+.spotlight-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+}
+.spotlight-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+}
+.dark .spotlight-card:hover {
+    box-shadow: 0 20px 40px -10px rgba(255,255,255,0.05);
+}
+.spotlight-overlay {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(37, 99, 235, 0.1), transparent 40%);
+    z-index: 20;
+}
+.spotlight-card:hover .spotlight-overlay {
+    opacity: 1;
+}
+
+/* Modern Scroll Reveal */
+.reveal-on-scroll {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(30px) scale(0.95);
+    transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: opacity, filter, transform;
+}
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+}
+
+/* Stagger Delays */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+
+/* Magnetic Button Effect Base Class */
+.magnetic-btn {
+    display: inline-block;
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ===== HERO SECTION ANIMATIONS ===== */
+@keyframes heroFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes badgeReveal {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes heroHeadingReveal {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes profileImageEnter {
+    from {
+        opacity: 0;
+        transform: scale(0.85) rotateY(20deg);
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes circleRotateIn {
+    from {
+        opacity: 0;
+        transform: rotate(90deg) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 20px rgba(37, 99, 235, 0.4));
+    }
+    50% {
+        filter: drop-shadow(0 0 40px rgba(37, 99, 235, 0.6));
+    }
+}
+
+@keyframes buttonScaleIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Hero Badge Animation */
+.hero-badge {
+    animation: badgeReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.1s;
+}
+
+/* Hero Heading Lines Animation */
+.hero-heading-line {
+    animation: heroHeadingReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.hero-heading-line:nth-child(1) { animation-delay: 0.2s; }
+.hero-heading-line:nth-child(2) { animation-delay: 0.35s; }
+.hero-heading-line:nth-child(3) { animation-delay: 0.5s; }
+
+/* Hero Paragraph Animation */
+.hero-description {
+    animation: heroFadeInUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.65s;
+    opacity: 0;
+}
+
+/* Hero Buttons Container Animation */
+.hero-buttons {
+    animation: heroFadeInUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.8s;
+    opacity: 0;
+}
+
+/* Hero Image Container Animation */
+.hero-image-container {
+    animation: profileImageEnter 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.4s;
+    opacity: 0;
+    perspective: 1000px;
+}
+
+/* Circular Elements Animation */
+.hero-circle-outer {
+    animation: circleRotateIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.5s;
+    opacity: 0;
+}
+
+.hero-circle-middle {
+    animation: circleRotateIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.6s;
+    opacity: 0;
+    animation-direction: reverse;
+}
+
+/* Profile Image Glow Effect */
+.hero-image-glow {
+    animation: glowPulse 3s ease-in-out infinite;
+    animation-delay: 1.4s;
+}
+
+/* Hero Profile Image */
+.hero-profile-img {
+    animation: profileImageEnter 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.4s;
+}
+
+
+
+
+
+
+
+
+/* CONTAINER */
+.circle-container {
+    position: relative;
+    width: 340px;
+    height: 340px;
+    margin: 0 auto;
+    perspective: 1400px;
+    cursor: grab;
+}
+
+/* TRACK */
+.circle-track {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    animation: rotateCircle 35s linear infinite;
+    transition: transform 0.2s ease;
+}
+
+/* IMAGE */
+.circle-track img {
+    position: absolute;
+    width: 300px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 16px;
+
+    left: 50%;
+    top: 50%;
+
+    transform-origin: center;
+    transition: all 0.4s ease;
+
+    opacity: 1.5;
+}
+
+/* POSITION */
+.circle-track img:nth-child(1) { transform: rotateY(0deg) translateZ(200px) translate(-50%, -50%); }
+.circle-track img:nth-child(2) { transform: rotateY(72deg) translateZ(200px) translate(-50%, -50%); }
+.circle-track img:nth-child(3) { transform: rotateY(144deg) translateZ(200px) translate(-50%, -50%); }
+.circle-track img:nth-child(4) { transform: rotateY(216deg) translateZ(200px) translate(-50%, -50%); }
+.circle-track img:nth-child(5) { transform: rotateY(288deg) translateZ(200px) translate(-50%, -50%); }
+
+/* ROTATE */
+@keyframes rotateCircle {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+/* CENTER GLOW EFFECT */
+.circle-track img.front {
+    opacity: 1;
+    transform: scale(1.2) translate(-50%, -50%) !important;
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.6);
+    z-index: 10;
+}
+
+/* HOVER STOP */
+.circle-container:hover .circle-track {
+    animation-play-state: paused;
+}
+
+/* Thumbnail base */
+.thumb {
+    width: 100%;
+    border-radius: 12px;
+    display: block;
+
+    /* Initial state */
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+
+    /* Animation */
+    animation: fadeUp 0.8s ease forwards;
+}
+
+/* Stagger delay */
+.thumb:nth-child(1) { animation-delay: 0.1s; }
+.thumb:nth-child(2) { animation-delay: 0.2s; }
+.thumb:nth-child(3) { animation-delay: 0.3s; }
+.thumb:nth-child(4) { animation-delay: 0.4s; }
+.thumb:nth-child(5) { animation-delay: 0.5s; }
+
+/* Hover effect */
+.thumb:hover {
+    transform: scale(1.08) rotate(1deg);
+    box-shadow: 0 20px 40px rgba(255, 0, 100, 0.4);
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+/* Smooth transition fix */
+.thumb {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Keyframes */
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* FIXED VERSION */
+.thumb {
+    width: 100%;
+    border-radius: 12px;
+    display: block;
+
+    opacity: 0;
+    transform: translateY(40px);
+
+    animation: fadeUp 0.8s ease forwards;
+
+    /* IMPORTANT */
+    will-change: transform, opacity;
+}
+
+/* Delay */
+.thumb:nth-child(1) { animation-delay: 0.2s; }
+.thumb:nth-child(2) { animation-delay: 0.4s; }
+.thumb:nth-child(3) { animation-delay: 0.6s; }
+.thumb:nth-child(4) { animation-delay: 0.8s; }
+.thumb:nth-child(5) { animation-delay: 1s; }
+
+/* Hover */
+.thumb:hover {
+    transform: scale(1.08);
+    box-shadow: 0 20px 40px rgba(255, 0, 100, 0.4);
+}
+
+/* KEYFRAME FIX */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* SECTION */
+.thumbnails-section {
+    padding: 60px 0;
+    background: #05070d;
+}
+
+/* TITLE */
+.gallery-title {
+    text-align: center;
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: white;
+    text-shadow: 0 0 10px #00f0ff, 0 0 20px #ff00ff;
+}
+
+/* GALLERY */
+.gallery {
+    column-count: 2;
+    column-gap: 20px;
+    padding: 0 20px;
+}
+
+@media (min-width: 768px) {
+    .gallery { column-count: 3; }
+}
+
+/* CARD */
+.card {
+    position: relative;
+    perspective: 1000px;
+    margin-bottom: 20px;
+
+    opacity: 1;
+    transform: translateY(50px) scale(0.9);
+    transition: all 0.6s ease;
+}
+
+/* REVEAL */
+.card.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* IMAGE */
+.thumb {
+    width: 100%;
+    border-radius: 16px;
+    display: block;
+
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* 🔥 3D HOVER */
+.card:hover .thumb {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6),
+                0 0 25px #00f0ff,
+                0 0 40px #ff00ff;
+}
+
+/* 🔥 NEON BORDER */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: linear-gradient(45deg, #00f0ff, #29159b, #ff00ff);
+    background-size: 300% 300%;
+    animation: neonMove 4s linear infinite;
+    z-index: -1;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+@keyframes neonMove {
+    0% { background-position: 0% }
+    100% { background-position: 300% }
+}
+
+.gallery .card {
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+}
+
+.thumbnails-section {
+    padding: 40px;
+    background: #0b0f1a;
+    text-align: center;
+}
+
+.gallery-title {
+    color: white;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+
+.logo-marquee {
+    overflow: hidden;
+    background: #05070d;
+    padding: 20px 0;
+}
+
+.logo-track {
+    display: flex;
+    gap: 60px;
+    width: max-content;
+
+    animation: scrollRightToLeft 20s linear infinite;
+}
+
+.logo {
+    height: 60px;
+    border-radius: 10px;
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.logo:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.logo-marquee {
+    overflow: hidden;
+    background: #05070d;
+    padding: 20px 0;
+}
+
+.logo-track {
+    display: flex;
+    gap: 60px;
+    width: max-content;
+
+    animation: scrollRightToLeft 20s linear infinite;
+}
+
+.logo {
+    height: 60px;
+    border-radius: 10px;
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.logo:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* 🔥 RIGHT → LEFT */
+
+.logo-marquee {
+    overflow: hidden;
+    background: #05070d;
+    padding: 20px 0;
+}
+
+.logo-track {
+    display: flex;
+    width: fit-content;
+
+    animation: scrollLoop 20s linear infinite;
+}
+
+.logo-group {
+    display: flex;
+    gap: 60px;
+}
+
+/* logos */
+.logo {
+    height: 60px;
+    border-radius: 10px;
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.logo:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* 🔥 PERFECT LOOP */
+@keyframes scrollLoop {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.logo-marquee {
+    overflow: hidden;
+    background: #05070d;
+    padding: 40px 0;
+    position: relative;
+}
+
+/* fade edges 🔥 */
+.logo-marquee::before,
+.logo-marquee::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 120px;
+    height: 100%;
+    z-index: 2;
+}
+
+.logo-marquee::before {
+    left: 0;
+    background: linear-gradient(to right, #05070d, transparent);
+}
+
+.logo-marquee::after {
+    right: 0;
+    background: linear-gradient(to left, #05070d, transparent);
+}
+
+.logo-track {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    width: max-content;
+
+    animation: scrollLoop 25s linear infinite;
+}
+
+.logo-group {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+}
+
+.logo {
+    height: 55px;
+    object-fit: contain;
+
+    opacity: 0.9;
+    transition: 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.15);
+    opacity: 1;
+}
+/* animation */
+@keyframes scrollLoop {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
