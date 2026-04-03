@@ -338,3 +338,57 @@ window.addEventListener("load", () => {
         }, index * 200); // stagger effect 🔥
     });
 });
+
+
+// ==============================
+// EMAILJS INIT
+// ==============================
+(function () {
+    emailjs.init("FTSEN4TjXSgjd2t7l"); // ✅ un public key
+})();
+
+
+// ==============================
+// FORM SUBMIT
+// ==============================
+const form = document.getElementById("contact-form");
+const button = form.querySelector("button");
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Loading UI
+    button.innerText = "Sending...";
+    button.disabled = true;
+
+    emailjs.sendForm(
+        "service_jdqf3yb",     // ✅ un service ID
+        "template_7h6bfwe",    // ✅ un template ID
+        form
+    )
+    .then(() => {
+
+        // Success
+        button.innerText = "Message Sent ✅";
+        form.reset();
+
+        setTimeout(() => {
+            button.innerText = "Send Message";
+            button.disabled = false;
+        }, 3000);
+
+    })
+    .catch((error) => {
+
+        console.error(error);
+
+        // Error
+        button.innerText = "Failed ❌";
+
+        setTimeout(() => {
+            button.innerText = "Send Message";
+            button.disabled = false;
+        }, 3000);
+
+    });
+});
